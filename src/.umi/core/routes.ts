@@ -11,7 +11,17 @@ export function getRoutes() {
       "exact": true,
       "component": require('@/component/user-info-list.jsx').default
     },
-  {
+    {
+      "path": "/userInfo/add",
+      "exact": true,
+      "component": require('@/component/user-info-add.jsx').default
+    },
+    {
+      "path": "/userInfo/detail",
+      "exact": true,
+      "component": require('@/component/user-info-detail.jsx').default
+    },
+      {
     "path": "/create-form",
     "exact": true,
     "component": require('@/pages/create-form/index.jsx').default

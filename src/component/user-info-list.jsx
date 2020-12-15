@@ -5,8 +5,8 @@ import { Table } from 'sula';
 export default () => {
     const config = {
         remoteDataSource: {
-            url: 'https://randomuser.me/api',
-            method: 'GET',
+            url: 'http://localhost:8083/sula/queryUserInfo',
+            method: 'POST',
             convertParams({ params }) {
                 return {
                     results: params.pageSize,
@@ -15,11 +15,9 @@ export default () => {
             },
             converter({ data }) {
                 return {
-                    list: data.results.map((item, index) => {
+                    list: data.map((item, index) => {
                         return {
                             ...item,
-                            id: `${index}`,
-                            name: `${item.name.first} ${item.name.last}`,
                         };
                     }),
                     total: 100,
@@ -42,9 +40,6 @@ export default () => {
             {
                 key: 'gender',
                 title: '性别',
-                render: ({ text }) => {
-                    return text === 'male' ? '男' : '女';
-                },
             },
             {
                 key: 'email',
@@ -76,8 +71,8 @@ export default () => {
                         type: 'link',
                         action: [
                             {
-                                type: 'route',
-                                path: '/carry/my?id=#{record.id}',
+                                type: 'url',
+                                path: 'http://localhost:8083/sula/removeUserInfo',
                             },
                         ],
                     },
@@ -89,7 +84,7 @@ export default () => {
                         action: [
                             {
                                 type: 'route',
-                                path: '/customer/listDetail?id=#{record.id}',
+                                path: '/userInfo/detail?id=#{JSON.stringify(record)}',
                             },
                         ],
                     },
@@ -100,32 +95,13 @@ export default () => {
             {
                 type: 'button',
                 props: {
-                    children: '刷新',
-                    type: 'primary',
-                },
-                action: ['refreshTable'],
-            },
-            {
-                type: 'button',
-                props: {
-                    children: '刷新 更改过滤参数',
+                    children: '新增',
                     type: 'primary',
                 },
                 action: [
-                    ctx => {
-                        ctx.table.setPagination({ pageSize: 3 });
-                    },
                     {
-                        type: 'refreshTable',
-                        args: [
-                            ctx => ctx,
-                            // 设置接口过滤参数
-                            {
-                                pagination: {
-                                    pageSize: 3,
-                                },
-                            },
-                        ],
+                        type: 'route',
+                        path: '/userInfo/add',
                     },
                 ],
             },

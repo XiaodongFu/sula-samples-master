@@ -11,6 +11,12 @@ import { getRoutes } from './core/routes';
 
 
 
+import { registerFieldPlugins, registerRenderPlugins, registerActionPlugins, registerFilterPlugins } from 'sula';
+
+registerFieldPlugins();
+registerRenderPlugins();
+registerActionPlugins();
+registerFilterPlugins();
 
 const getClientRender = (args: { hot?: boolean; routes?: any[] } = {}) => plugin.applyPlugins({
   key: 'render',
