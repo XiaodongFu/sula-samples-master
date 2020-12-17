@@ -37,7 +37,7 @@ window.onload = function () {
   ul.style.margin = '0';
 
   setTimeout(() => {
-    ['/create-form', '/query-table', '/step-form'].forEach((path) => {
+    [].forEach((path) => {
       if (!path) {
         return;
       }

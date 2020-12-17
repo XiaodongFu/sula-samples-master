@@ -1,13 +1,10 @@
-import React from 'react';
-import { CreateForm } from 'sula';
-export default () => {
 
-    const config = {
-        actionsPosition:'center',
-        layout: 'vertical',
-        itemLayout: {
-            span: 8,
-        },
+export const action = ({ title, mode, url, memberId,initialValues }) => [
+    {
+        type: 'modalform',
+        title,
+        mode,
+        width: 800,
         fields: [
             {
                 name: 'name',
@@ -33,26 +30,16 @@ export default () => {
                 name: 'email',
                 label: '邮箱',
                 field: 'input',
-                itemLayout: {
-                    span: 8,
-                },
-            },
-            {
-                name: 'others',
-                label: '其他信息',
-                field: 'input',
-                itemLayout: {
-                    span: 8,
-                },
             },
         ],
         submit: {
-            url: 'http://localhost:8083/sula/addUserInfo',
+            url: 'http://localhost:8083/sula/modifyUserInfo',
             method: 'POST',
-            successMessage: '提交成功',
+            successMessage: '更新成功',
             convertParams: ({ result }) => result,
         },
-    };
-
-    return <CreateForm {...config} />;
-};
+        initialValues: {
+            ...initialValues,
+        },
+    }
+];

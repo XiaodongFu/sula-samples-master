@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table } from 'sula';
 
+import { action } from './detail-action';
 
 export default () => {
     const config = {
@@ -20,7 +21,7 @@ export default () => {
                             ...item,
                         };
                     }),
-                    total: 100,
+                    total: data.size,
                 };
             },
         },
@@ -48,32 +49,44 @@ export default () => {
             {
                 key: 'operator',
                 title: '操作',
-
-
                 render: [
                     {
                         props: {
-                            children: '修改 ',
+                            type: 'primary',
+                            children: '修改',
+                            size: 'small',
                         },
                         type: 'link',
-                        action: [
-                            {
-                                type: 'route',
-                                path:
-                                    '/am/detail?openId=#{record.id}&name=#{record.staffName}&dep=#{record.department}&gender=#{record.sexText}',
+                        action: action({
+                            title: '用户信息修改',
+                            mode: 'edit',
+                            url: '',
+                            memberId: '#{record.id}',
+                            initialValues: {
+                                id: '#{record.id}',
+                                name: '#{record.name}',
+                                nat: '#{record.nat}',
+                                email: '#{record.email}',
+                                gender: '#{record.gender}',
                             },
-                        ],
+                        }),
                     },
                     {
                         props: {
                             children: '删除',
                         },
                         type: 'link',
+                        confirm: '是否删除？',
                         action: [
                             {
-                                type: 'url',
-                                path: 'http://localhost:8083/sula/removeUserInfo',
+                                type: 'request',
+                                url: 'http://localhost:8083/sula/removeUserInfo',
+                                method: 'POST',
+                                params: {
+                                    id: '#{record.id}',
+                                },
                             },
+                            'refreshtable',
                         ],
                     },
                     {
@@ -84,7 +97,7 @@ export default () => {
                         action: [
                             {
                                 type: 'route',
-                                path: '/userInfo/detail?id=#{JSON.stringify(record)}',
+                                path: '/userInfo/detail?id=#{record.id}',
                             },
                         ],
                     },

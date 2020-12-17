@@ -2,7 +2,13 @@ import React from 'react';
 import { CreateForm } from 'sula';
 export default (props) => {
 
+    const { location: { query:  idStr } } = props;
+    console.log('aa',props);
+
+
     const config = {
+        actionsPosition:'center',
+        mode:'view',
         layout: 'vertical',
         itemLayout: {
             span: 8,
@@ -45,18 +51,21 @@ export default (props) => {
                 },
             },
         ],
-        submit: {
-            url: 'http://localhost:8083/sula/addUserInfo',
+        //
+        // submit: {
+        //     url: 'http://localhost:8083/sula/addUserInfo',
+        //     method: 'POST',
+        //     convertParams: ({ result }) => result,
+        // },
+
+        remoteValues: {
+            url: 'http://localhost:8083/sula/queryUserInfoById',
             method: 'POST',
-            convertParams: ({ result }) => result,
+            params: {
+                ...idStr,
+            },
         },
     };
-
-
-    const { location: { query: { id: idStr} } } = props;
-    const idObj = JSON.parse(idStr);
-    const { name } = idObj;
-    console.log(111, idObj);
 
     return <CreateForm {...config} />;
 };
